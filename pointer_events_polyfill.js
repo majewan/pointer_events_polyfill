@@ -24,7 +24,7 @@ function PointerEventsPolyfill(options){
     };
     if(options){
         var obj = this;
-        $.each(options, function(k,v){
+        jQuery.each(options, function(k,v){
           obj.options[k] = v;
         });
     }
@@ -43,23 +43,23 @@ PointerEventsPolyfill.initialize = function(options){
 // handle mouse events w/ support for pointer-events: none
 PointerEventsPolyfill.prototype.register_mouse_events = function(){
     // register on all elements (and all future elements) matching the selector
-    $(document).on(this.options.mouseEvents.join(" "), this.options.selector, function(e){
-       if($(this).css('pointer-events') == 'none'){
+    jQuery(document).on(this.options.mouseEvents.join(" "), this.options.selector, function(e){
+       if(jQuery(this).css('pointer-events') == 'none'){
              // peak at the element below
-             var origDisplayAttribute = $(this).css('display');
-             $(this).css('display','none');
+             var origDisplayAttribute = jQuery(this).css('display');
+             jQuery(this).css('display','none');
 
              var underneathElem = document.elementFromPoint(e.clientX, e.clientY);
 
             if(origDisplayAttribute)
-                $(this)
+                jQuery(this)
                     .css('display', origDisplayAttribute);
             else
-                $(this).css('display','');
+                jQuery(this).css('display','');
 
              // fire the mouse event on the element below
             e.target = underneathElem;
-            $(underneathElem).trigger(e);
+            jQuery(underneathElem).trigger(e);
 
             return false;
         }
